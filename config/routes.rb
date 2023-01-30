@@ -1,6 +1,19 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  root to: 'home#index'
+  namespace :api do
+    resources :products, only: [:index, :show]
+    resources :companies, only: [:index, :show]
+    resources :reviews
+    post '/signup', to: 'users#create'
+		get '/me', to: 'users#show'
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+	  post '/login', to: 'sessions#create'
+		delete '/logout', to: 'sessions#destroy'
+  end
+
+  # Routing logic: fallback requests for React Router.
+  # Leave this here to help deploy your app later!
+  get '*path',
+    to: 'fallback#index',
+    constraints: ->(req) { !req.xhr? && req.format.html? }
 end
