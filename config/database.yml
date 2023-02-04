@@ -22,4 +22,4 @@ test:
 
 production:
   <<: *default
-  database: recoleta_app_production
+  url: <%= ENV['DATABASE_URL'] %>
